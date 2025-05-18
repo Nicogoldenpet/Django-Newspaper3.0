@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+<!--Importando el diseño base.html -->
+
+{% load crispy_forms_tags %}
+<!--Importando los formatos crispy-->
+
+{% block title %}Articles{% endblock title %}
+<!--Título de la página-->
+
+{% block content %}
+<!--Contenido de articles-->
+<body
+  style="
+    background-color: #bcfffd;
+    background-image: url(/static/img/music.gif);
+  "
+>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      {% for article in article_list %}
+      <!--Recorriendo todos los artículos-->
+      <div class="d-flex justify-content-center">
+        <div
+          class="card text-white"
+          style="
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+              rgba(17, 17, 26, 0.1) 0px 8px 24px,
+              rgba(17, 17, 26, 0.1) 0px 16px 48px;
+            border-color: azure;
+          "
+        >
+          <!-- Imagen centrada y recortada -->
+          {% if article.image_url %}
+          <img
+            src="{{ article.image_url }}"
+            alt="Imagen del artículo"
+            class="card-img-top"
+            style="height: 200px; object-fit: cover; object-position: center"
+          />
+          {% endif %}
+          <div class="card-header fs-5" style="background-color: #5e7f7e">
+            <span class="fw-bold d-flex justify-content-center">
+              {{ article.title }}
+              <!--Título-->
+            </span>
+            <span class="d-flex justify-content-center"
+              >by {{ article.author }} | {{ article.date }}</span
+            >
+            <!--Autor y fecha-->
+          </div>
+          <div class="card-body text-center text-dark fs-4">
+            <p>{{ article.body }}</p>
+            <!--Cuerpo-->
+            <a
+              href="{% url 'article_edit' article.pk %}"
+              class="text-muted fw-bold"
+            >
+              Editar</a
+            >
+            |
+            <a
+              href="{% url 'article_delete' article.pk %}"
+              class="text-muted fw-bold"
+              >Eliminar</a
+            >
+          </div>
+          <div class="card-footer text-start" style="background-color: #5e7f7e">
+            <h1 class="fs-3">Comentarios</h1>
+            {% for comment in article.comment_set.all %}
+            <!--Recorriendo todos los comentarios de cada artículo-->
+            <p>
+              <span class="fw-bold"> {{ comment.author }} &middot; </span>
+              {{ comment }}
+               <!-- Si el usuario es el autor del comentario, muestra las opciones de editar y eliminar -->
+              {% if comment.author == user %} <!-- Verifica si el usuario es el autor -->
+                <a href="{% url 'comment_edit' comment.pk %}" class="text-muted">
+                  <img src="/static/img/lapz.png" alt="Editar" style="width: 24px; height: 24px;">
+                </a>
+                <a href="{% url 'comment_delete' comment.pk %}" class="text-danger fw-bold">
+                  <img src="/static/img/basura.png" alt="Eliminar" style="width: 24px; height: 24px;">
+                </a>
+              {% endif %}
+            </p>
+            {% endfor %}
+            <!--Cerrando for-->
+            <!-- Formulario para agregar comentarios -->
+            <h4 class="text-center">Añadir un comentario</h4>
+            <form action="{% url 'article_comment' article.pk %}" method="post">
+              {% csrf_token %} {{ form|crispy }}
+              <!-- Asegúrate de que este sea el mismo formulario de CommentForm -->
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-dark" type="submit">Publicar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br />
+      {% endfor %}
+      <!--Cerrando for-->
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</body>
+{% endblock content %}
+<!--Cerrando contenido de articles-->

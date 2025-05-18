@@ -1,0 +1,17 @@
+<!-- templates/403.html -->
+{% extends "base.html" %}
+
+{% block title %}Error 403{% endblock %}
+
+{% block content %}
+    <body style="background-image: url(/static/img/signal.gif);">
+        <div class="container-sm d-flex align-items-center justify-content-center" style="min-height: 80vh; background-color: white; box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;">
+            <div class="text-center">
+                <img src="/static/img/angry.gif" alt="" style="width: 25%;" class="img-fluid" >
+                <h1 class="display-4 fw-bold">403 Forbidden</h1>
+                <p class="lead">No tienes permiso para acceder a esta página.</p>
+                <a href="{% url 'article_list' %}" class="btn btn-lg btn-secondary">Volver a la lista de artículos</a>
+            </div>
+        </div>
+    </body>
+{% endblock %}

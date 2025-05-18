@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Editar Comentario{% endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Editar Comentario</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}  <!-- Renderiza el formulario de edición de comentarios -->
+            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+{% endblock content %}
