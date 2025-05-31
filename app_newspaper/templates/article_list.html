@@ -54,18 +54,21 @@
           <div class="card-body text-center text-dark fs-4">
             <p>{{ article.body }}</p>
             <!--Cuerpo-->
-            <a
-              href="{% url 'article_edit' article.pk %}"
-              class="text-muted fw-bold"
-            >
-              Editar</a
-            >
-            |
-            <a
-              href="{% url 'article_delete' article.pk %}"
-              class="text-muted fw-bold"
-              >Eliminar</a
-            >
+
+            {% if article.author == user %}
+              <a
+                href="{% url 'article_edit' article.pk %}"
+                class="text-muted fw-bold"
+              >
+                Editar</a
+              >
+              |
+              <a
+                href="{% url 'article_delete' article.pk %}"
+                class="text-muted fw-bold"
+                >Eliminar</a
+              >
+            {% endif %}
           </div>
           <div class="card-footer text-start" style="background-color: #5e7f7e">
             <h1 class="fs-3">Comentarios</h1>
